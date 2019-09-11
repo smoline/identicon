@@ -1,6 +1,6 @@
 # Identicon
 
-**TODO: Add description**
+**TODO: Turn a String into an image**
 
 ## Installation
 
