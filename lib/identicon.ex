@@ -33,11 +33,20 @@ defmodule Identicon do
     |> pick_color
   end
 
-  def pick_color(image) do
-    %Identicon.Image{hex: [r, g, b | _tail]} = image
-
-    [r, g, b]
+  def pick_color(%Identicon.Image{hex: [r, g, b | _tail]} = image) do
+    %Identicon.Image{image | color: {r, g, b}}
   end
+
+  # the javascript way
+  # pick_color: function(image) {
+  #   image.color = {
+  #     r: image.hex[0],
+  #     g: image.hex[1],
+  #     b: image.hex[2]
+  #   }
+
+  #   return image
+  # }
 
   def hash_input(input) do
     hex = :crypto.hash(:md5, input)
