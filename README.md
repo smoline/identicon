@@ -10,23 +10,12 @@ Uses the MD5 hashing algorithm to create a unique graphical identicon based on a
 ## How I did it
 The `main` function in the Identicon module structure:
 
-```elixir
-def main(input) do
-  input
-  |> hash_input
-  # => hashes the input string
-  |> pick_color
-  # => takes first three integers for r, g, b color
-  |> build_grid
-  # => chunks the list into 3's, flattens, then adds index to each element
-  |> filter_odd_squares
-  # => filters out the odd numbers in the list
-  |> build_pixel_map
-  # => maps coordinates for the colored squares
-  |> draw_image
-  # => creates 2D image with Erlang egd
-end
-```
+1. We needed to hash the input string
+2. Then take the first three integers for r, g, b color
+3. Chunk_every 3 numbers, flatten them, then add an index to each element
+4. filter out the odd numbers
+5. map the coordinates for the colored squares
+6. create a 2D image using erlang egd
 
 ## Getting up and running
 - Run `iex -S mix` in the root directory
