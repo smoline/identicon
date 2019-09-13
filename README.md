@@ -1,31 +1,33 @@
 # Identicon
+Uses the MD5 hashing algorithm to create a unique graphical identicon based on an input string.
 
-**TODO: Turn a String into an image**
+## What I Learned 
+- Pattern matching within function arguments
+- Greater understanding of the pipe operator and the way Elixir is meant to be used
+- Mapping and iterating through Elixir data structures
+- Better knowledge of Elixir library
 
-## Installation
-
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `identicon` to your list of dependencies in `mix.exs`:
+## How I did it
+The `main` function in the Identicon module structure:
 
 ```elixir
-def deps do
-  [
-    {:identicon, "~> 0.1.0"}
-  ]
+def main(input) do
+  input
+  |> hash_input
+  # => hashes the input string
+  |> pick_color
+  # => takes first three integers for r, g, b color
+  |> build_grid
+  # => chunks the list into 3's, flattens, then adds index to each element
+  |> filter_odd_squares
+  # => filters out the odd numbers in the list
+  |> build_pixel_map
+  # => maps coordinates for the colored squares
+  |> draw_image
+  # => creates 2D image with Erlang egd
 end
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/identicon](https://hexdocs.pm/identicon).
-
-What we want to do...
-  iex> hash = :crypto.hash(:md5, "banana")
-  <<114, 179, 2, 191, 41, 122, 34, 138, 117, 115, 1, 35, 239, 239, 124, 65>>
-  iex> :binary.bin_to_list(hash)
-  [114, 179, 2, 191, 41, 122, 34, 138, 117, 115, 1, 35, 239, 239, 124, 65]
-  
-  If we wanted to
-  iex> Base.encode16(hash)
-  "72B302BF297A228A75730123EFEF7C41"
-
+## Getting up and running
+- Run `iex -S mix` in the root directory
+- Run `Identicon.main("string")`
