@@ -2,21 +2,13 @@ defmodule Identicon do
   def hello do
     "Hello!"
   end
-  # What we want to do...
-  # iex> hash = :crypto.hash(:md5, "banana")
-  # <<114, 179, 2, 191, 41, 122, 34, 138, 117, 115, 1, 35, 239, 239, 124, 65>>
-  # iex> :binary.bin_to_list(hash)
-  # [114, 179, 2, 191, 41, 122, 34, 138, 117, 115, 1, 35, 239, 239, 124, 65]
-  # If we wanted to
-  # iex> Base.encode16(hash)
-  # "72B302BF297A228A75730123EFEF7C41"
 
   @moduledoc """
     Provides methods for converting strings into images
   """
 
   @doc """
-    Given a string input, converts the string into a hex list
+    Given a string input, converts the string into a hex list, adds color attribute, builds the grid, and then the pixel map.
 
   ## Examples
 
@@ -33,6 +25,21 @@ defmodule Identicon do
     |> pick_color
     |> build_grid
     |> filter_odd_squares
+    |> build_pixel_map
+  end
+
+  def build_pixel_map(%Identicon.Image{grid: grid} = image) do
+    pixel_map = Enum.map grid, fn({_code, index}) ->
+      horizontal = rem(index, 5) * 50
+      vertical = div(index, 5) * 50
+
+      top_left = {horizontal, vertical}
+      bottom_right = {horizontal + 50, vertical + 50}
+
+      {top_left, bottom_right}
+    end
+
+    %Identicon.Image{image | pixel_map: pixel_map}
   end
 
   def filter_odd_squares(%Identicon.Image{grid: grid} = image) do
